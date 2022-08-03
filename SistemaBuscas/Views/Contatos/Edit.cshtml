@@ -1,0 +1,68 @@
+﻿@using SistemaBuscas.Models.Enums
+@model SistemaBuscas.Models.Contato
+
+@{
+    ViewData["Title"] = "Editar - Antão Fernandes & Associados";
+}
+
+<h1>Editar</h1>
+
+<h4>Contato</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ContatoId" />
+            <div class="form-group">
+                <label asp-for="Nome" class="control-label"></label>
+                <input asp-for="Nome" class="form-control" />
+                <span asp-validation-for="Nome" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Categoria" class="control-label"></label>
+                <select asp-for="Categoria" class="form-control">
+                    <option value="">Selecione</option>
+                    <option value="@CategoriaContato.Particulares">Particulares</option>
+                    <option value="@CategoriaContato.AFA">AFA</option>
+                    <option value="@CategoriaContato.Dacarto">Dacarto</option>
+                    <option value="@CategoriaContato.Contabilidade">Contabilidade</option>
+                    <option value="@CategoriaContato.Brooks">Brooks</option>
+                    <option value="@CategoriaContato.Tower">Tower</option>
+                    <option value="@CategoriaContato.Flat">Flat</option>
+                    <option value="@CategoriaContato.Jamaris">Jamaris</option>
+                    <option value="@CategoriaContato.Guaruja">Guarujá</option>
+                    <option value="@CategoriaContato.Atibaia">Atibaia</option>
+                    <option value="@CategoriaContato.Outros">Outros</option>
+                </select>
+                <span asp-validation-for="Categoria" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Residencial" class="control-label"></label>
+                <input asp-for="Residencial" class="form-control" />
+                <span asp-validation-for="Residencial" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Comercial" class="control-label"></label>
+                <input asp-for="Comercial" class="form-control" />
+                <span asp-validation-for="Comercial" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Celular" class="control-label"></label>
+                <input asp-for="Celular" class="form-control" />
+                <span asp-validation-for="Celular" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Voltar a Lista</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
