@@ -1,112 +1,117 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SistemaBuscas.Data;
 using SistemaBuscas.Models;
 
 namespace SistemaBuscas.Controllers
 {
-    public class ContatosController : Controller
+    public class CondominiosController : Controller
     {
         private readonly AppDbContext _context;
 
-        public ContatosController(AppDbContext context)
+        public CondominiosController(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: Contatos
+        // GET: Condominios
         public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
 
             ViewData["NomeSortParm"] = String.IsNullOrEmpty(sortOrder) ? "nome_desc" : "";
             ViewData["CategoriaSortParm"] = sortOrder == "Categoria" ? "categ_desc" : "";
             ViewData["CurrentFilter"] = searchString;
-            var contatos = from s in _context.Contatos
+            var condominios = from s in _context.Condominios
                            select s;
 
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                contatos = contatos.Where(s => s.Nome.ToUpper().ToLower().Contains(searchString)
+                condominios = condominios.Where(s => s.Nome.ToUpper().ToLower().Contains(searchString)
                                        || s.Nome.ToUpper().ToLower().Contains(searchString));
             }
             switch (sortOrder)
             {
                 case "nome_desc":
-                    contatos = contatos.OrderBy(s => s.Nome);
+                    condominios = condominios.OrderByDescending(s => s.Nome);
                     break;
 
                 default:
-                    contatos = contatos.OrderBy(s => s.Categoria);
+                    condominios = condominios.OrderBy(s => s.Nome);
                     break;
             }
-            return View(await contatos.AsNoTracking().ToListAsync());
+            return View(await condominios.AsNoTracking().ToListAsync());
         }
 
-        // GET: Contatos/Details/5
+        // GET: Condominios/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Contatos == null)
+            if (id == null || _context.Condominios == null)
             {
                 return NotFound();
             }
 
-            var contato = await _context.Contatos
-                .FirstOrDefaultAsync(m => m.ContatoId == id);
-            if (contato == null)
+            var condominio = await _context.Condominios
+                .FirstOrDefaultAsync(m => m.CondominioId == id);
+            if (condominio == null)
             {
                 return NotFound();
             }
 
-            return View(contato);
+            return View(condominio);
         }
 
-        // GET: Contatos/Create
+        // GET: Condominios/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Contatos/Create
+        // POST: Condominios/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ContatoId,Nome,Categoria,Residencial,Comercial,Celular")] Contato contato)
+        public async Task<IActionResult> Create([Bind("CondominioId,Nome,Endereco,Complemento,CEP,TelAdm,Email,TelPort,TelZela,SenhaBoletos")] Condominio condominio)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(contato);
+                _context.Add(condominio);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(contato);
+            return View(condominio);
         }
 
-        // GET: Contatos/Edit/5
+        // GET: Condominios/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Contatos == null)
+            if (id == null || _context.Condominios == null)
             {
                 return NotFound();
             }
 
-            var contato = await _context.Contatos.FindAsync(id);
-            if (contato == null)
+            var condominio = await _context.Condominios.FindAsync(id);
+            if (condominio == null)
             {
                 return NotFound();
             }
-            return View(contato);
+            return View(condominio);
         }
 
-        // POST: Contatos/Edit/5
+        // POST: Condominios/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ContatoId,Nome,Categoria,Residencial,Comercial,Celular")] Contato contato)
+        public async Task<IActionResult> Edit(int id, [Bind("CondominioId,Nome,Endereco,Complemento,CEP,TelAdm,Email,TelPort,TelZela,SenhaBoletos")] Condominio condominio)
         {
-            if (id != contato.ContatoId)
+            if (id != condominio.CondominioId)
             {
                 return NotFound();
             }
@@ -115,12 +120,12 @@ namespace SistemaBuscas.Controllers
             {
                 try
                 {
-                    _context.Update(contato);
+                    _context.Update(condominio);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ContatoExists(contato.ContatoId))
+                    if (!CondominioExists(condominio.CondominioId))
                     {
                         return NotFound();
                     }
@@ -131,49 +136,49 @@ namespace SistemaBuscas.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(contato);
+            return View(condominio);
         }
 
-        // GET: Contatos/Delete/5
+        // GET: Condominios/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Contatos == null)
+            if (id == null || _context.Condominios == null)
             {
                 return NotFound();
             }
 
-            var contato = await _context.Contatos
-                .FirstOrDefaultAsync(m => m.ContatoId == id);
-            if (contato == null)
+            var condominio = await _context.Condominios
+                .FirstOrDefaultAsync(m => m.CondominioId == id);
+            if (condominio == null)
             {
                 return NotFound();
             }
 
-            return View(contato);
+            return View(condominio);
         }
 
-        // POST: Contatos/Delete/5
+        // POST: Condominios/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Contatos == null)
+            if (_context.Condominios == null)
             {
-                return Problem("Entity set 'AppDbContext.Contatos'  is null.");
+                return Problem("Entity set 'AppDbContext.Condominios'  is null.");
             }
-            var contato = await _context.Contatos.FindAsync(id);
-            if (contato != null)
+            var condominio = await _context.Condominios.FindAsync(id);
+            if (condominio != null)
             {
-                _context.Contatos.Remove(contato);
+                _context.Condominios.Remove(condominio);
             }
-
+            
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ContatoExists(int id)
+        private bool CondominioExists(int id)
         {
-            return (_context.Contatos?.Any(e => e.ContatoId == id)).GetValueOrDefault();
+          return (_context.Condominios?.Any(e => e.CondominioId == id)).GetValueOrDefault();
         }
     }
 }

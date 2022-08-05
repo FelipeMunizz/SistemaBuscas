@@ -1,112 +1,116 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SistemaBuscas.Data;
 using SistemaBuscas.Models;
 
 namespace SistemaBuscas.Controllers
 {
-    public class ContatosController : Controller
+    public class DebitosController : Controller
     {
         private readonly AppDbContext _context;
 
-        public ContatosController(AppDbContext context)
+        public DebitosController(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: Contatos
+        // GET: Debitos
         public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
-
             ViewData["NomeSortParm"] = String.IsNullOrEmpty(sortOrder) ? "nome_desc" : "";
-            ViewData["CategoriaSortParm"] = sortOrder == "Categoria" ? "categ_desc" : "";
+            ViewData["CategoriaSortParm"] = sortOrder == "Empresa" ? "empresa_desc" : "";
             ViewData["CurrentFilter"] = searchString;
-            var contatos = from s in _context.Contatos
+            var debitos = from s in _context.Debitos
                            select s;
 
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                contatos = contatos.Where(s => s.Nome.ToUpper().ToLower().Contains(searchString)
-                                       || s.Nome.ToUpper().ToLower().Contains(searchString));
+                debitos = debitos.Where(s => s.Imovel.ToUpper().ToLower().Contains(searchString)
+                                       || s.Imovel.ToUpper().ToLower().Contains(searchString));
             }
             switch (sortOrder)
             {
                 case "nome_desc":
-                    contatos = contatos.OrderBy(s => s.Nome);
+                    debitos = debitos.OrderByDescending(s => s.Imovel);
                     break;
 
                 default:
-                    contatos = contatos.OrderBy(s => s.Categoria);
+                    debitos = debitos.OrderBy(s => s.Imovel);
                     break;
             }
-            return View(await contatos.AsNoTracking().ToListAsync());
+            return View(await debitos.AsNoTracking().ToListAsync());
         }
 
-        // GET: Contatos/Details/5
+        // GET: Debitos/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Contatos == null)
+            if (id == null || _context.Debitos == null)
             {
                 return NotFound();
             }
 
-            var contato = await _context.Contatos
-                .FirstOrDefaultAsync(m => m.ContatoId == id);
-            if (contato == null)
+            var debito = await _context.Debitos
+                .FirstOrDefaultAsync(m => m.DebitoId == id);
+            if (debito == null)
             {
                 return NotFound();
             }
 
-            return View(contato);
+            return View(debito);
         }
 
-        // GET: Contatos/Create
+        // GET: Debitos/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Contatos/Create
+        // POST: Debitos/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ContatoId,Nome,Categoria,Residencial,Comercial,Celular")] Contato contato)
+        public async Task<IActionResult> Create([Bind("DebitoId,Imovel,Empresa,Servico,NumeroDeb")] Debito debito)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(contato);
+                _context.Add(debito);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(contato);
+            return View(debito);
         }
 
-        // GET: Contatos/Edit/5
+        // GET: Debitos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Contatos == null)
+            if (id == null || _context.Debitos == null)
             {
                 return NotFound();
             }
 
-            var contato = await _context.Contatos.FindAsync(id);
-            if (contato == null)
+            var debito = await _context.Debitos.FindAsync(id);
+            if (debito == null)
             {
                 return NotFound();
             }
-            return View(contato);
+            return View(debito);
         }
 
-        // POST: Contatos/Edit/5
+        // POST: Debitos/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ContatoId,Nome,Categoria,Residencial,Comercial,Celular")] Contato contato)
+        public async Task<IActionResult> Edit(int id, [Bind("DebitoId,Imovel,Empresa,Servico,NumeroDeb")] Debito debito)
         {
-            if (id != contato.ContatoId)
+            if (id != debito.DebitoId)
             {
                 return NotFound();
             }
@@ -115,12 +119,12 @@ namespace SistemaBuscas.Controllers
             {
                 try
                 {
-                    _context.Update(contato);
+                    _context.Update(debito);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ContatoExists(contato.ContatoId))
+                    if (!DebitoExists(debito.DebitoId))
                     {
                         return NotFound();
                     }
@@ -131,49 +135,49 @@ namespace SistemaBuscas.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(contato);
+            return View(debito);
         }
 
-        // GET: Contatos/Delete/5
+        // GET: Debitos/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Contatos == null)
+            if (id == null || _context.Debitos == null)
             {
                 return NotFound();
             }
 
-            var contato = await _context.Contatos
-                .FirstOrDefaultAsync(m => m.ContatoId == id);
-            if (contato == null)
+            var debito = await _context.Debitos
+                .FirstOrDefaultAsync(m => m.DebitoId == id);
+            if (debito == null)
             {
                 return NotFound();
             }
 
-            return View(contato);
+            return View(debito);
         }
 
-        // POST: Contatos/Delete/5
+        // POST: Debitos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Contatos == null)
+            if (_context.Debitos == null)
             {
-                return Problem("Entity set 'AppDbContext.Contatos'  is null.");
+                return Problem("Entity set 'AppDbContext.Debitos'  is null.");
             }
-            var contato = await _context.Contatos.FindAsync(id);
-            if (contato != null)
+            var debito = await _context.Debitos.FindAsync(id);
+            if (debito != null)
             {
-                _context.Contatos.Remove(contato);
+                _context.Debitos.Remove(debito);
             }
-
+            
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ContatoExists(int id)
+        private bool DebitoExists(int id)
         {
-            return (_context.Contatos?.Any(e => e.ContatoId == id)).GetValueOrDefault();
+          return (_context.Debitos?.Any(e => e.DebitoId == id)).GetValueOrDefault();
         }
     }
 }

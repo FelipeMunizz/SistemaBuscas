@@ -13,11 +13,11 @@ namespace SistemaBuscas.Models
 
         [Required(ErrorMessage = "Digite o Endereço e número")]
         [MaxLength(150)]
-        [Display(Name ="")]
+        [Display(Name ="Endereço")]
         public string? Endereco { get; set; }
 
         [Required(ErrorMessage = "Selecione o Complemento")]
-        public ComplementoCondominio Complemento { get; set; }
+        public string? Complemento { get; set; }
 
         [Required(ErrorMessage = "Digite o CEP")]
         [MaxLength(150)]
@@ -27,6 +27,11 @@ namespace SistemaBuscas.Models
         [MaxLength(50)]
         [Display(Name = "Telefone Administradora")]
         public string? TelAdm { get; set; }
+
+        [EmailAddress(ErrorMessage ="Email inválido")]
+        [MaxLength(100)]
+        [Display(Name ="E-mail")]
+        public string? Email { get; set; }
 
         [Phone(ErrorMessage = "O número não é valido")]
         [MaxLength(50)]

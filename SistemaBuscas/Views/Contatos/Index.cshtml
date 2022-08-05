@@ -1,59 +1,50 @@
 ﻿@model IEnumerable<SistemaBuscas.Models.Contato>
-
 @{
     ViewData["Title"] = "Contatos - Antão Fernandes & Associados";
 }
 
 <h1>Lista de Telefones Úteis</h1>
-
+<section>
 <p>
     <a type="button" class="btn btn-primary" asp-action="Create">Criar Novo Contato</a>
 </p>
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Busque pelo Nome: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
+            <button type="submit" value="Search" class="btn btn-primary">Pesquisar</button> |
+            <a asp-action="Index">Todos</a>
+        </p>
+    </div>
+</form>
+</section>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Nome)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NomeSortParm"]">@Html.DisplayNameFor(model => model.Nome)</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Categoria)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Residencial)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Comercial)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Celular)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["CategoriaSortParm"]">@Html.DisplayNameFor(model => model.Categoria)</a>
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Categoria)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Residencial)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Comercial)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Celular)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ContatoId">Editar</a> |
-                <a asp-action="Details" asp-route-id="@item.ContatoId">Detalhes</a> |
-                <a asp-action="Delete" asp-route-id="@item.ContatoId">Deletar</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Categoria)
+                </td>               
+                <td>                    
+                    <a type="button" class="btn btn-info" asp-action="Details" asp-route-id="@item.ContatoId">Detalhes</a> |
+                    <a type="button" class="btn btn-danger" asp-action="Delete" asp-route-id="@item.ContatoId">Deletar</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

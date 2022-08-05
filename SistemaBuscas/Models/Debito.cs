@@ -6,6 +6,11 @@ public class Debito
 {
     public int DebitoId { get; set; }
 
+    [Required(ErrorMessage ="Digite o Imóvel")]
+    [Display(Name = "Imóvel")]
+    [MaxLength(50)]
+    public string? Imovel { get; set; }
+
     [Required(ErrorMessage ="Digite o nome da Empresa")]
     [MaxLength(50)]
     public string? Empresa { get; set; }

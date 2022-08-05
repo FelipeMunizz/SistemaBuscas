@@ -1,0 +1,61 @@
+﻿@model IEnumerable<SistemaBuscas.Models.Debito>
+
+@{
+    ViewData["Title"] = "Débitos - Antão Fernandes & Associados LTDA";
+}
+
+<h1>Lista de Débitos Automáticos</h1>
+
+<p>
+    <a type="button" class="btn btn-primary" asp-action="Create">Adicionar Novo</a>
+</p>
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Busque por Imóvel ou Pessoa: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
+            <button type="submit" value="Search" class="btn btn-primary">Pesquisar</button> |
+            <a asp-action="Index">Todos</a>
+        </p>
+    </div>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NomeSortParm"]">@Html.DisplayNameFor(model => model.Imovel) / Pessoa</a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Empresa)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Servico)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumeroDeb)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Imovel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Empresa)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Servico)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumeroDeb)
+            </td>
+            <td>
+                <a type="button" class="btn btn-primary" asp-action="Edit" asp-route-id="@item.DebitoId">Editar</a> |
+                <a type="button" class="btn btn-danger" asp-action="Delete" asp-route-id="@item.DebitoId">Deletar</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
