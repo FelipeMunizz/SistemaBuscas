@@ -7,7 +7,7 @@ public class Debito
     public int DebitoId { get; set; }
 
     [Required(ErrorMessage ="Digite o Imóvel")]
-    [Display(Name = "Imóvel")]
+    [Display(Name = "Imóvel / Pessoa")]
     [MaxLength(50)]
     public string? Imovel { get; set; }
 

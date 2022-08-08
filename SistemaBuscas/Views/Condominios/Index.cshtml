@@ -4,66 +4,50 @@
     ViewData["Title"] = "Condomínios - Antão Fernandes & Associados LTDA";
 }
 
-<h1>Lista de Condomínios</h1>
+<h1>Condomínios</h1>
 
 <p>
     <a type="button" class="btn btn-primary" asp-action="Create">Novo Condomínio</a>
 </p>
-<form asp-action="Index" method="get">
-    <div class="form-actions no-color">
-        <p>
-            Busque pelo Nome: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
-            <button type="submit" value="Search" class="btn btn-primary">Pesquisar</button> |
-            <a asp-action="Index">Todos</a>
-        </p>
-    </div>
-</form>
 <table class="table">
     <thead>
         <tr>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["NomeSortParm"]">@Html.DisplayNameFor(model => model.Nome)</a>
+                @Html.DisplayNameFor(model => model.Nome)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TelAdm)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TelPort)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TelZela)
+                @Html.DisplayNameFor(model => model.Admininstradora)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.SenhaBoletos)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TelPort)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Nome)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TelAdm)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TelPort)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TelZela)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SenhaBoletos)
-                </td>
-                <td>
-                    <a type="button" class="btn btn-primary" asp-action="Edit" asp-route-id="@item.CondominioId">Editar</a> |
-                    <a type="button" class="btn btn-info" asp-action="Details" asp-route-id="@item.CondominioId">Detalhes</a> |
-                    <a type="button" class="btn btn-danger" asp-action="Delete" asp-route-id="@item.CondominioId">Deletar</a>
-                </td>
-            </tr>
-        }
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Admininstradora)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SenhaBoletos)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TelPort)
+            </td>
+            <td>
+                <a type="button" class="btn btn-primary" asp-action="Edit" asp-route-id="@item.CondominioId">Editar</a> |
+                <a type="button" class="btn btn-info" asp-action="Details" asp-route-id="@item.CondominioId">Detalhes</a> |
+                <a type="button" class="btn btn-danger" asp-action="Delete" asp-route-id="@item.CondominioId">Deletar</a>
+            </td>
+        </tr>
+}
     </tbody>
 </table>

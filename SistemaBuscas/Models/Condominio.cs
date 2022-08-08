@@ -23,6 +23,9 @@ namespace SistemaBuscas.Models
         [MaxLength(150)]
         public string? CEP { get; set; }
 
+        [MaxLength(50)]
+        public string? Admininstradora { get; set; }
+
         [Phone(ErrorMessage = "O número não é valido")]
         [MaxLength(50)]
         [Display(Name = "Telefone Administradora")]
@@ -38,10 +41,16 @@ namespace SistemaBuscas.Models
         [Display(Name = "Telefone Portaria")]
         public string? TelPort { get; set; }
 
+        [MaxLength(50)]
+        public string? Zelador { get; set; }
+
         [Phone(ErrorMessage = "O número não é valido")]
         [MaxLength(50)]
-        [Display(Name = "Telefone Zelador ou Responsável")]
+        [Display(Name = "Telefone Zelador")]
         public string? TelZela { get; set; }
+
+        [MaxLength(50)]
+        [Display(Name ="Senha Boletos")]
         public string? SenhaBoletos { get; set; }
     }
 }

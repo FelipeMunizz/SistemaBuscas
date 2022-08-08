@@ -20,32 +20,11 @@ namespace SistemaBuscas.Controllers
         }
 
         // GET: Condominios
-        public async Task<IActionResult> Index(string sortOrder, string searchString)
+        public async Task<IActionResult> Index()
         {
-
-            ViewData["NomeSortParm"] = String.IsNullOrEmpty(sortOrder) ? "nome_desc" : "";
-            ViewData["CategoriaSortParm"] = sortOrder == "Categoria" ? "categ_desc" : "";
-            ViewData["CurrentFilter"] = searchString;
-            var condominios = from s in _context.Condominios
-                           select s;
-
-
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                condominios = condominios.Where(s => s.Nome.ToUpper().ToLower().Contains(searchString)
-                                       || s.Nome.ToUpper().ToLower().Contains(searchString));
-            }
-            switch (sortOrder)
-            {
-                case "nome_desc":
-                    condominios = condominios.OrderByDescending(s => s.Nome);
-                    break;
-
-                default:
-                    condominios = condominios.OrderBy(s => s.Nome);
-                    break;
-            }
-            return View(await condominios.AsNoTracking().ToListAsync());
+              return _context.Condominios != null ? 
+                          View(await _context.Condominios.ToListAsync()) :
+                          Problem("Entity set 'AppDbContext.Condominios'  is null.");
         }
 
         // GET: Condominios/Details/5
@@ -77,7 +56,7 @@ namespace SistemaBuscas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CondominioId,Nome,Endereco,Complemento,CEP,TelAdm,Email,TelPort,TelZela,SenhaBoletos")] Condominio condominio)
+        public async Task<IActionResult> Create([Bind("CondominioId,Nome,Endereco,Complemento,CEP,Admininstradora,TelAdm,Email,TelPort,Zelador,TelZela,SenhaBoletos")] Condominio condominio)
         {
             if (ModelState.IsValid)
             {
@@ -109,7 +88,7 @@ namespace SistemaBuscas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CondominioId,Nome,Endereco,Complemento,CEP,TelAdm,Email,TelPort,TelZela,SenhaBoletos")] Condominio condominio)
+        public async Task<IActionResult> Edit(int id, [Bind("CondominioId,Nome,Endereco,Complemento,CEP,Admininstradora,TelAdm,Email,TelPort,Zelador,TelZela,SenhaBoletos")] Condominio condominio)
         {
             if (id != condominio.CondominioId)
             {

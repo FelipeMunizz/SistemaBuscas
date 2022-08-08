@@ -5,7 +5,7 @@
 }
 
 <h1>Deletar Condomínio</h1>
-<div>    
+<div>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -33,6 +33,12 @@
             @Html.DisplayFor(model => model.CEP)
         </dd>
         <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Admininstradora)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Admininstradora)
+        </dd>
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.TelAdm)
         </dt>
         <dd class = "col-sm-10">
@@ -49,6 +55,12 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.TelPort)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Zelador)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Zelador)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.TelZela)

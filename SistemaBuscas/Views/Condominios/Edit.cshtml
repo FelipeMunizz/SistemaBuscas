@@ -32,6 +32,11 @@
                 <span asp-validation-for="CEP" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Admininstradora" class="control-label"></label>
+                <input asp-for="Admininstradora" class="form-control" />
+                <span asp-validation-for="Admininstradora" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="TelAdm" class="control-label"></label>
                 <input asp-for="TelAdm" class="form-control" />
                 <span asp-validation-for="TelAdm" class="text-danger"></span>
@@ -47,6 +52,11 @@
                 <span asp-validation-for="TelPort" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Zelador" class="control-label"></label>
+                <input asp-for="Zelador" class="form-control" />
+                <span asp-validation-for="Zelador" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="TelZela" class="control-label"></label>
                 <input asp-for="TelZela" class="form-control" />
                 <span asp-validation-for="TelZela" class="text-danger"></span>
@@ -57,14 +67,14 @@
                 <span asp-validation-for="SenhaBoletos" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Salvar" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Voltar a Lista</a>
+    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
